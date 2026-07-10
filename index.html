@@ -16,6 +16,8 @@
     --bad: #c94444;
     --bad-bg: rgba(201,68,68,0.10);
     --star: #b8860b;
+    --info: #3a7ca8;
+    --info-bg: rgba(58,124,168,0.10);
     --radius: 10px;
     --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Consolas", "Liberation Mono", monospace;
     --sans: -apple-system, "Segoe UI", "Inter", system-ui, "Helvetica Neue", Arial, sans-serif;
@@ -36,6 +38,8 @@
       --bad: #ea6d6b;
       --bad-bg: rgba(234,109,107,0.13);
       --star: #f0c14b;
+      --info: #6fb3e0;
+      --info-bg: rgba(111,179,224,0.13);
     }
   }
   :root[data-theme="dark"] {
@@ -43,12 +47,14 @@
     --text: #e7ecef; --text-dim: #93a1ac; --accent: #ff9e2c; --accent-strong: #ffb454;
     --accent-ink: #1a1206; --good: #52c17e; --good-bg: rgba(82,193,126,0.13);
     --bad: #ea6d6b; --bad-bg: rgba(234,109,107,0.13); --star: #f0c14b;
+    --info: #6fb3e0; --info-bg: rgba(111,179,224,0.13);
   }
   :root[data-theme="light"] {
     --bg: #eef1f2; --surface: #ffffff; --surface-2: #f4f6f7; --border: #d7dee2;
     --text: #1a2127; --text-dim: #5c6b76; --accent: #c66a12; --accent-strong: #a85809;
     --accent-ink: #fffaf2; --good: #2f8f52; --good-bg: rgba(47,143,82,0.10);
     --bad: #c94444; --bad-bg: rgba(201,68,68,0.10); --star: #b8860b;
+    --info: #3a7ca8; --info-bg: rgba(58,124,168,0.10);
   }
 
   * { box-sizing: border-box; }
@@ -76,6 +82,8 @@
   }
   header.top h1 { font-size: 21px; margin: 0; font-weight: 700; letter-spacing: -0.01em; }
   header.top .sub { font-size: 12.5px; color: var(--text-dim); }
+  header.top .streak { font-family: var(--mono); font-size: 12.5px; color: var(--text-dim); text-align: right; }
+  header.top .streak b { color: var(--accent); font-size: 15px; }
 
   nav.tabs {
     display: flex; gap: 4px; background: var(--surface-2); border: 1px solid var(--border);
@@ -85,9 +93,14 @@
     font-family: var(--sans); font-size: 13.5px; font-weight: 600; color: var(--text-dim);
     background: transparent; border: none; border-radius: 7px; padding: 8px 14px;
     cursor: pointer; white-space: nowrap; transition: background 0.15s, color 0.15s;
+    display: flex; align-items: center; gap: 6px;
   }
   nav.tabs button:hover { color: var(--text); }
   nav.tabs button.active { background: var(--surface); color: var(--accent); box-shadow: 0 1px 2px rgba(0,0,0,0.08); }
+  nav.tabs button .badge {
+    font-family: var(--mono); font-size: 10.5px; font-weight: 700; background: var(--accent);
+    color: var(--accent-ink); border-radius: 8px; padding: 1px 6px; line-height: 1.4;
+  }
   nav.tabs button:focus-visible, button:focus-visible, a:focus-visible, select:focus-visible, input:focus-visible {
     outline: 2px solid var(--accent); outline-offset: 2px;
   }
@@ -110,6 +123,13 @@
   .stat-card .l { font-size: 12px; color: var(--text-dim); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 2px; }
 
   /* ---------- learn / accordion ---------- */
+  .search-row { display: flex; gap: 8px; margin-bottom: 14px; }
+  .search-row input {
+    flex: 1; font-family: var(--sans); font-size: 13.5px; padding: 9px 12px; border-radius: 7px;
+    border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  }
+  .search-hits { font-size: 12px; color: var(--text-dim); margin: -6px 0 12px; font-family: var(--mono); }
+
   .subel {
     background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
     margin-bottom: 10px; overflow: hidden;
@@ -141,6 +161,7 @@
   .star-btn { background: none; border: none; cursor: pointer; font-size: 15px; color: var(--border); line-height: 1; padding: 0; }
   .star-btn.on { color: var(--star); }
   .qtext { font-size: 14.5px; margin-bottom: 8px; text-wrap: balance; }
+  .qtext mark { background: var(--accent); color: var(--accent-ink); border-radius: 3px; padding: 0 2px; }
   .fig { max-width: 100%; height: auto; display: block; margin: 6px 0 10px; background: #fff; border-radius: 6px; padding: 6px; border: 1px solid var(--border); }
   .opts { display: flex; flex-direction: column; gap: 5px; }
   .opt { display: flex; gap: 8px; font-size: 13.5px; padding: 6px 8px; border-radius: 6px; }
@@ -161,26 +182,21 @@
   }
   .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); font-weight: 700; }
   .btn.primary:hover { background: var(--accent-strong); }
+  .btn.good { background: var(--good); color: #fff; border-color: var(--good); font-weight: 700; }
+  .btn.bad { background: var(--bad); color: #fff; border-color: var(--bad); font-weight: 700; }
   .btn:hover { border-color: var(--accent); }
   .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
-  /* ---------- flashcards ---------- */
-  .deck-info { font-size: 12.5px; color: var(--text-dim); margin-bottom: 10px; font-family: var(--mono); }
-  .flash-wrap { display: flex; flex-direction: column; align-items: center; gap: 14px; }
-  .flashcard {
-    width: 100%; min-height: 260px; background: var(--surface); border: 1px solid var(--border);
-    border-radius: 14px; padding: 26px 24px; display: flex; flex-direction: column;
-    justify-content: center; gap: 14px; cursor: pointer; position: relative;
-  }
-  .flashcard .fc-code { font-family: var(--mono); font-size: 11px; color: var(--accent); letter-spacing: 0.08em; }
-  .flashcard .fc-q { font-size: 17px; font-weight: 600; text-wrap: balance; }
-  .flashcard .fc-hint { position: absolute; bottom: 12px; right: 16px; font-size: 11px; color: var(--text-dim); }
-  .fc-answer { display: none; flex-direction: column; gap: 5px; margin-top: 4px; }
-  .flashcard.flipped .fc-answer { display: flex; }
-  .flashcard.flipped .fc-q { color: var(--text-dim); font-size: 14px; }
-  .fc-answer .letter-big { font-family: var(--mono); color: var(--good); font-weight: 700; }
-  .fc-nav { display: flex; gap: 10px; align-items: center; }
-  .fc-counter { font-family: var(--mono); font-size: 12.5px; color: var(--text-dim); min-width: 70px; text-align: center; font-variant-numeric: tabular-nums; }
+  /* ---------- drill (spaced-repetition, multiple choice) ---------- */
+  .deck-info { font-size: 12.5px; color: var(--text-dim); margin-bottom: 10px; font-family: var(--mono); display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+  .drill-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; }
+  .drill-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .drill-box { display: flex; gap: 3px; }
+  .drill-box .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); }
+  .drill-box .dot.on { background: var(--accent); }
+  .drill-card .qtext { font-size: 16px; margin: 4px 0 14px; }
+  .drill-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+  .drill-counter { font-family: var(--mono); font-size: 12.5px; color: var(--text-dim); font-variant-numeric: tabular-nums; }
 
   /* ---------- quiz ---------- */
   .quiz-setup { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; display: flex; flex-direction: column; gap: 14px; }
@@ -206,21 +222,38 @@
   .quiz-opt.chosen-wrong { background: var(--bad-bg); border-color: var(--bad); }
   .quiz-opt.chosen-wrong .letter { color: var(--bad); }
   .quiz-opt.disabled { cursor: default; }
-  .quiz-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; }
+  .quiz-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 16px; flex-wrap: wrap; gap: 10px; }
   .quiz-fb { font-size: 12.5px; font-weight: 600; }
   .quiz-fb.correct { color: var(--good); }
   .quiz-fb.wrong { color: var(--bad); }
+  .quiz-why { font-size: 13px; color: var(--text-dim); background: var(--info-bg); border-radius: 7px; padding: 9px 11px; margin-top: 4px; display: none; }
+  .quiz-why.show { display: block; }
+  .quiz-why b { color: var(--info); }
 
   .result-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px; text-align: center; }
   .result-card .score { font-family: var(--mono); font-size: 44px; font-weight: 700; font-variant-numeric: tabular-nums; }
   .result-card .verdict { font-size: 14px; color: var(--text-dim); margin-top: 4px; margin-bottom: 18px; }
   .miss-list { text-align: left; margin-top: 16px; display: flex; flex-direction: column; gap: 8px; }
 
+  /* ---------- reference ---------- */
+  .ref-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 18px 20px; margin-bottom: 12px; }
+  .ref-card h3 { font-size: 14px; margin: 0 0 4px; }
+  .ref-card .ref-note { font-size: 12px; color: var(--text-dim); margin-bottom: 12px; }
+  .formula-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px,1fr)); gap: 10px; }
+  .formula { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 12px; text-align: center; }
+  .formula .eq { font-family: var(--mono); font-size: 18px; font-weight: 700; color: var(--accent); }
+  .formula .label { font-size: 11.5px; color: var(--text-dim); margin-top: 4px; }
+  table.ref-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.ref-table th, table.ref-table td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--border); }
+  table.ref-table th { color: var(--text-dim); font-weight: 600; font-size: 11.5px; text-transform: uppercase; letter-spacing: 0.04em; }
+  table.ref-table td.mono, table.ref-table th.mono { font-family: var(--mono); }
+  .ref-table-wrap { overflow-x: auto; }
+  .source-tag { font-family: var(--mono); font-size: 10.5px; color: var(--text-dim); }
+
   /* ---------- missed / empty ---------- */
   .empty { text-align: center; padding: 50px 20px; color: var(--text-dim); font-size: 13.5px; }
 
   @media (max-width: 520px) {
-    .flashcard { min-height: 220px; padding: 20px 18px; }
     .result-card .score { font-size: 36px; }
   }
 </style>
@@ -232,39 +265,32 @@
       <h1>Technician Pool 2026&ndash;2030</h1>
       <div class="sub">409 official questions &middot; effective 7/1/2026&ndash;6/30/2030</div>
     </div>
+    <div class="streak" id="streakBox"></div>
   </header>
 
   <nav class="tabs" id="tabs">
     <button data-tab="learn" class="active">Learn</button>
-    <button data-tab="flash">Flashcards</button>
+    <button data-tab="flash">Drill <span class="badge" id="dueBadge" style="display:none;"></span></button>
     <button data-tab="quiz">Quiz</button>
     <button data-tab="missed">Missed</button>
+    <button data-tab="reference">Reference</button>
     <button data-tab="stats">Progress</button>
   </nav>
 
   <section class="panel active" id="panel-learn">
+    <div class="search-row">
+      <input type="text" id="learnSearch" placeholder="Search questions, answers, or a code like T5D04&hellip;" />
+    </div>
+    <div class="search-hits" id="searchHits" style="display:none;"></div>
     <div id="learnList"></div>
   </section>
 
   <section class="panel" id="panel-flash">
     <div class="filter-row">
       <select id="flashScope"></select>
-      <button class="btn" id="flashShuffle">Shuffle</button>
     </div>
     <div class="deck-info" id="flashDeckInfo"></div>
-    <div class="flash-wrap">
-      <div class="flashcard" id="flashcard">
-        <div class="fc-code" id="fcCode"></div>
-        <div class="fc-q" id="fcQ"></div>
-        <div class="fc-answer" id="fcAnswer"></div>
-        <div class="fc-hint">tap card to flip</div>
-      </div>
-      <div class="fc-nav">
-        <button class="btn" id="fcPrev">&larr; Prev</button>
-        <div class="fc-counter" id="fcCounter"></div>
-        <button class="btn" id="fcNext">Next &rarr;</button>
-      </div>
-    </div>
+    <div id="drillArea"></div>
   </section>
 
   <section class="panel" id="panel-quiz">
@@ -273,6 +299,10 @@
 
   <section class="panel" id="panel-missed">
     <div id="missedArea"></div>
+  </section>
+
+  <section class="panel" id="panel-reference">
+    <div id="referenceArea"></div>
   </section>
 
   <section class="panel" id="panel-stats">
@@ -293,21 +323,48 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
   Q.forEach(q => byCode[q.code] = q);
   const groupOf = code => code.slice(0, 3);
   const subOf = code => code.slice(0, 2);
+  const DAY = 86400000;
+  const LEITNER_INTERVALS = [0, 0, 1 * DAY, 3 * DAY, 7 * DAY, 16 * DAY, 30 * DAY]; // index = box (1..6)
 
   const LS_KEY = "hamTechPool2026Progress";
+  function todayStr() { return new Date().toISOString().slice(0, 10); }
   function loadState() {
     try {
       const raw = localStorage.getItem(LS_KEY);
-      if (raw) return JSON.parse(raw);
+      if (raw) {
+        const s = JSON.parse(raw);
+        s.attempts = s.attempts || {};
+        s.starred = s.starred || {};
+        s.leitner = s.leitner || {};
+        s.streak = s.streak || { count: 0, last: null };
+        return s;
+      }
     } catch (e) {}
-    return { attempts: {}, starred: {} };
+    return { attempts: {}, starred: {}, leitner: {}, streak: { count: 0, last: null } };
   }
   let state = loadState();
   function save() { localStorage.setItem(LS_KEY, JSON.stringify(state)); }
+
+  function bumpStreak() {
+    const today = todayStr();
+    if (state.streak.last === today) return;
+    const yesterday = new Date(Date.now() - DAY).toISOString().slice(0, 10);
+    state.streak.count = state.streak.last === yesterday ? state.streak.count + 1 : 1;
+    state.streak.last = today;
+    save();
+    renderStreakBox();
+  }
+  function renderStreakBox() {
+    const el = document.getElementById("streakBox");
+    if (!state.streak.count) { el.innerHTML = ""; return; }
+    el.innerHTML = `<b>${state.streak.count}</b> day${state.streak.count === 1 ? "" : "s"} streak`;
+  }
+
   function recordAttempt(code, correct) {
     const a = state.attempts[code] || { seen: 0, correct: 0, last: null };
     a.seen++; if (correct) a.correct++; a.last = correct;
     state.attempts[code] = a;
+    bumpStreak();
     save();
   }
   function toggleStar(code) {
@@ -316,6 +373,39 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
   }
   function missedCodes() {
     return Object.keys(state.attempts).filter(c => state.attempts[c].last === false);
+  }
+
+  // ---------- Leitner spaced repetition ----------
+  function leitnerOf(code) {
+    return state.leitner[code] || { box: 1, due: 0 };
+  }
+  function gradeCard(code, gotIt) {
+    const l = leitnerOf(code);
+    if (gotIt) {
+      l.box = Math.min(l.box + 1, 6);
+    } else {
+      l.box = 1;
+    }
+    l.due = Date.now() + LEITNER_INTERVALS[l.box];
+    state.leitner[code] = l;
+    bumpStreak();
+    save();
+  }
+  function dueCodes() {
+    const now = Date.now();
+    return Q.filter(q => {
+      const l = state.leitner[q.code];
+      return l && l.due <= now;
+    }).map(q => q.code);
+  }
+  function newCodes() {
+    return Q.filter(q => !state.leitner[q.code]).map(q => q.code);
+  }
+  function updateDueBadge() {
+    const n = dueCodes().length;
+    const badge = document.getElementById("dueBadge");
+    if (n > 0) { badge.style.display = "inline-block"; badge.textContent = n; }
+    else badge.style.display = "none";
   }
 
   // ---------- tabs ----------
@@ -329,24 +419,33 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
     if (btn.dataset.tab === "missed") renderMissed();
     if (btn.dataset.tab === "stats") renderStats();
     if (btn.dataset.tab === "flash") refreshFlashScope();
+    if (btn.dataset.tab === "reference") renderReference();
   });
 
   function esc(s) {
     return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  }
+  function highlight(s, term) {
+    const e = esc(s);
+    if (!term) return e;
+    try {
+      const re = new RegExp("(" + term.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + ")", "ig");
+      return e.replace(re, "<mark>$1</mark>");
+    } catch (err) { return e; }
   }
 
   function optRow(letter, text, correct, revealed) {
     return `<div class="opt${revealed && correct ? " correct" : ""}"><span class="letter">${letter}</span><span>${esc(text)}</span></div>`;
   }
 
-  function questionCard(q) {
+  function questionCard(q, term) {
     const starred = !!state.starred[q.code];
     let html = `<div class="qcard" data-code="${q.code}">
       <div class="qhead">
         <span class="qcode">${q.code}</span>
         <button class="star-btn ${starred ? "on" : ""}" data-star="${q.code}" title="Mark for review">${starred ? "★" : "☆"}</button>
       </div>
-      <div class="qtext">${esc(q.question)}</div>`;
+      <div class="qtext">${highlight(q.question, term)}</div>`;
     if (q.fig) html += `<img class="fig" src="data:image/png;base64,${FIGS[q.fig]}" alt="Figure ${q.fig}">`;
     html += `<div class="opts" data-revealed="0">`;
     ["A","B","C","D"].forEach(l => html += optRow(l, q.options[l], l === q.answer, false));
@@ -354,6 +453,20 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
     if (q.ref) html += `<div class="ref">47 CFR &sect;${q.ref}</div>`;
     html += `</div>`;
     return html;
+  }
+
+  function wireQcardEvents(root) {
+    root.querySelectorAll("[data-reveal]").forEach(btn => btn.addEventListener("click", e => {
+      const card = e.target.closest(".qcard");
+      const q = byCode[card.dataset.code];
+      card.querySelector(".opts").innerHTML = ["A","B","C","D"].map(l => optRow(l, q.options[l], l === q.answer, true)).join("");
+      e.target.remove();
+    }));
+    root.querySelectorAll("[data-star]").forEach(btn => btn.addEventListener("click", e => {
+      toggleStar(e.target.dataset.star);
+      e.target.classList.toggle("on");
+      e.target.textContent = e.target.classList.contains("on") ? "★" : "☆";
+    }));
   }
 
   // ---------- LEARN ----------
@@ -373,40 +486,60 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
           ${groupCodes.map(g => `
             <div class="group">
               <div class="group-title"><b>${g}</b> &mdash; ${GROUPS[g]}</div>
-              ${Q.filter(q => groupOf(q.code) === g).map(questionCard).join("")}
+              ${Q.filter(q => groupOf(q.code) === g).map(q => questionCard(q)).join("")}
             </div>`).join("")}
         </div>
       </div>`;
     }).join("");
+    wireQcardEvents(el);
   }
 
   document.getElementById("learnList").addEventListener("click", e => {
     const head = e.target.closest("[data-toggle]");
-    if (head) {
-      head.closest(".subel").classList.toggle("open");
-      return;
-    }
-    const revealBtn = e.target.closest("[data-reveal]");
-    if (revealBtn) {
-      const card = revealBtn.closest(".qcard");
-      const q = byCode[card.dataset.code];
-      card.querySelector(".opts").innerHTML = ["A","B","C","D"].map(l => optRow(l, q.options[l], l === q.answer, true)).join("");
-      revealBtn.remove();
-      return;
-    }
-    const starBtn = e.target.closest("[data-star]");
-    if (starBtn) {
-      toggleStar(starBtn.dataset.star);
-      starBtn.classList.toggle("on");
-      starBtn.textContent = starBtn.classList.contains("on") ? "★" : "☆";
-    }
+    if (head) head.closest(".subel").classList.toggle("open");
   });
 
-  // ---------- FLASHCARDS ----------
-  let deck = [], deckIdx = 0;
+  const learnSearch = document.getElementById("learnSearch");
+  let searchDebounce;
+  learnSearch.addEventListener("input", () => {
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(runSearch, 120);
+  });
+
+  function runSearch() {
+    const term = learnSearch.value.trim();
+    const listEl = document.getElementById("learnList");
+    const hitsEl = document.getElementById("searchHits");
+    if (!term) {
+      hitsEl.style.display = "none";
+      listEl.style.display = "block";
+      renderLearn();
+      return;
+    }
+    const lower = term.toLowerCase();
+    const matches = Q.filter(q => {
+      if (q.code.toLowerCase() === lower) return true;
+      const hay = (q.code + " " + q.question + " " + Object.values(q.options).join(" ")).toLowerCase();
+      return hay.includes(lower);
+    });
+    hitsEl.style.display = "block";
+    hitsEl.textContent = matches.length + " match" + (matches.length === 1 ? "" : "es");
+    listEl.innerHTML = matches.length
+      ? matches.map(q => questionCard(q, term)).join("")
+      : `<div class="empty">No questions match &ldquo;${esc(term)}&rdquo;.</div>`;
+    wireQcardEvents(listEl);
+  }
+
+  // ---------- DRILL (spaced repetition, real 4-choice format) ----------
+  // The exam always shows the exact published question with its exact 4 choices,
+  // so drilling is done in that same recognition format rather than free-recall
+  // flashcards — only the *scheduling* (Leitner boxes) is flashcard-like.
+  let deck = [], deckIdx = 0, drillChosen = null;
   const flashScopeSel = document.getElementById("flashScope");
   function buildScopeOptions() {
-    let opts = `<option value="all">All 409 questions</option>`;
+    let opts = `<option value="due">Due for review</option>`;
+    opts += `<option value="new">New (not yet studied)</option>`;
+    opts += `<option value="all">All 409 questions</option>`;
     SUBELS.forEach(([code, title]) => opts += `<option value="${code}">${code} &mdash; ${title}</option>`);
     opts += `<option value="starred">★ Starred only</option>`;
     opts += `<option value="missed">Missed in quizzes</option>`;
@@ -416,6 +549,8 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
 
   function scopeQuestions(scope) {
     if (scope === "all") return Q.slice();
+    if (scope === "due") { const d = new Set(dueCodes()); return Q.filter(q => d.has(q.code)); }
+    if (scope === "new") { const n = new Set(newCodes()); return Q.filter(q => n.has(q.code)); }
     if (scope === "starred") return Q.filter(q => state.starred[q.code]);
     if (scope === "missed") { const m = new Set(missedCodes()); return Q.filter(q => m.has(q.code)); }
     return Q.filter(q => subOf(q.code) === scope);
@@ -425,55 +560,100 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
     return arr;
   }
   function refreshFlashScope() {
-    deck = scopeQuestions(flashScopeSel.value);
+    updateDueBadge();
+    // default to "due" if anything is due, otherwise "new", on first load only
+    if (!flashScopeSel.dataset.touched) {
+      flashScopeSel.value = dueCodes().length ? "due" : "new";
+    }
+    deck = shuffle(scopeQuestions(flashScopeSel.value));
     deckIdx = 0;
-    renderFlashDeckInfo();
-    renderFlashcard();
+    renderDeckInfo();
+    renderDrillCard();
   }
-  function renderFlashDeckInfo() {
-    document.getElementById("flashDeckInfo").textContent = deck.length + " card" + (deck.length === 1 ? "" : "s") + " in this deck";
+  flashScopeSel.addEventListener("change", () => { flashScopeSel.dataset.touched = "1"; refreshFlashScope(); });
+  function renderDeckInfo() {
+    document.getElementById("flashDeckInfo").innerHTML =
+      `<span>${deck.length} question${deck.length === 1 ? "" : "s"} in this set</span>` +
+      `<span>${dueCodes().length} due &middot; ${newCodes().length} new</span>`;
   }
-  function renderFlashcard() {
-    const card = document.getElementById("flashcard");
-    card.classList.remove("flipped");
+
+  function renderDrillCard() {
+    drillChosen = null;
+    const el = document.getElementById("drillArea");
     if (!deck.length) {
-      document.getElementById("fcCode").textContent = "";
-      document.getElementById("fcQ").textContent = "No cards in this deck yet.";
-      document.getElementById("fcAnswer").innerHTML = "";
-      document.getElementById("fcCounter").textContent = "0 / 0";
+      el.innerHTML = `<div class="empty">Nothing in this set right now — nice work, or try a different scope above.</div>`;
       return;
     }
     const q = deck[deckIdx];
-    document.getElementById("fcCode").textContent = q.code;
-    document.getElementById("fcQ").textContent = q.question;
-    let ansHtml = `<div><span class="letter-big">${q.answer}.</span> ${esc(q.options[q.answer])}</div>`;
-    if (q.fig) ansHtml += `<img class="fig" src="data:image/png;base64,${FIGS[q.fig]}" alt="Figure ${q.fig}">`;
-    document.getElementById("fcAnswer").innerHTML = ansHtml;
-    document.getElementById("fcCounter").textContent = (deckIdx + 1) + " / " + deck.length;
+    const l = leitnerOf(q.code);
+    let figHtml = q.fig ? `<img class="fig" src="data:image/png;base64,${FIGS[q.fig]}" alt="Figure ${q.fig}">` : "";
+    el.innerHTML = `
+      <div class="drill-card">
+        <div class="drill-top">
+          <span class="qcode">${q.code}</span>
+          <div class="drill-box">${[1,2,3,4,5,6].map(i => `<span class="dot${i <= l.box ? " on" : ""}"></span>`).join("")}</div>
+        </div>
+        <div class="qtext">${esc(q.question)}</div>
+        ${figHtml}
+        <div id="drillOpts">${["A","B","C","D"].map(letter => `<div class="quiz-opt" data-letter="${letter}"><span class="letter">${letter}</span><span>${esc(q.options[letter])}</span></div>`).join("")}</div>
+        <div class="drill-foot">
+          <span class="quiz-fb" id="drillFb"></span>
+          <div class="drill-counter">${deckIdx + 1} / ${deck.length}</div>
+          <button class="btn primary" id="drillNext" disabled>Next &rarr;</button>
+        </div>
+      </div>`;
+    document.querySelectorAll("#drillOpts .quiz-opt").forEach(opt => opt.addEventListener("click", () => chooseDrillOpt(opt.dataset.letter)));
+    document.getElementById("drillNext").addEventListener("click", drillAdvance);
   }
-  document.getElementById("flashcard").addEventListener("click", () => document.getElementById("flashcard").classList.toggle("flipped"));
-  document.getElementById("fcPrev").addEventListener("click", () => { if (deck.length) { deckIdx = (deckIdx - 1 + deck.length) % deck.length; renderFlashcard(); } });
-  document.getElementById("fcNext").addEventListener("click", () => { if (deck.length) { deckIdx = (deckIdx + 1) % deck.length; renderFlashcard(); } });
-  document.getElementById("flashShuffle").addEventListener("click", () => { shuffle(deck); deckIdx = 0; renderFlashcard(); });
-  flashScopeSel.addEventListener("change", refreshFlashScope);
+
+  function chooseDrillOpt(letter) {
+    if (drillChosen !== null) return;
+    const q = deck[deckIdx];
+    const correct = letter === q.answer;
+    drillChosen = correct;
+    gradeCard(q.code, correct);
+    updateDueBadge();
+    document.querySelectorAll("#drillOpts .quiz-opt").forEach(opt => {
+      opt.classList.add("disabled");
+      if (opt.dataset.letter === q.answer) opt.classList.add("chosen-correct");
+      else if (opt.dataset.letter === letter) opt.classList.add("chosen-wrong");
+    });
+    const fb = document.getElementById("drillFb");
+    fb.textContent = correct ? "Correct" : "Incorrect — correct answer is " + q.answer;
+    fb.className = "quiz-fb " + (correct ? "correct" : "wrong");
+    document.getElementById("drillNext").disabled = false;
+  }
+
+  function drillAdvance() {
+    if (!deck.length) return;
+    deckIdx = (deckIdx + 1) % deck.length;
+    if (deckIdx === 0) deck = shuffle(scopeQuestions(flashScopeSel.value));
+    renderDeckInfo();
+    renderDrillCard();
+  }
   document.addEventListener("keydown", e => {
     if (!document.getElementById("panel-flash").classList.contains("active")) return;
-    if (e.key === " ") { e.preventDefault(); document.getElementById("flashcard").classList.toggle("flipped"); }
-    if (e.key === "ArrowRight") document.getElementById("fcNext").click();
-    if (e.key === "ArrowLeft") document.getElementById("fcPrev").click();
+    if (!deck.length) return;
+    if (drillChosen === null && ["a","b","c","d","A","B","C","D"].includes(e.key)) {
+      const opt = document.querySelector(`#drillOpts .quiz-opt[data-letter="${e.key.toUpperCase()}"]`);
+      if (opt) opt.click();
+    } else if (drillChosen !== null && e.key === "Enter") {
+      document.getElementById("drillNext").click();
+    }
   });
 
   // ---------- QUIZ ----------
   let quizQs = [], quizIdx = 0, quizAnswers = [], quizChosen = null;
   function renderQuizSetup() {
     const el = document.getElementById("quizArea");
-    let opts = `<option value="exam">Exam simulation &mdash; 35Q, one per group</option><option value="all">All 409 questions</option>`;
+    let opts = `<option value="focus">Focus mode &mdash; weighted toward weak spots</option>`;
+    opts += `<option value="exam">Exam simulation &mdash; 35Q, one per group</option><option value="all">All 409 questions</option>`;
     SUBELS.forEach(([code, title]) => opts += `<option value="${code}">${code} &mdash; ${title}</option>`);
     opts += `<option value="starred">★ Starred only</option><option value="missed">Previously missed</option>`;
     el.innerHTML = `
       <div class="quiz-setup">
         <h2>Start a quiz</h2>
-        <div class="desc">Exam simulation mirrors the real test format: 35 questions, one randomly drawn from each of the 35 question groups.</div>
+        <div class="desc" id="quizDesc">Focus mode weights questions you've missed or never seen much higher than ones you already know, so review time goes where it's needed.</div>
         <div class="filter-row">
           <select id="quizScope">${opts}</select>
           <select id="quizLen">
@@ -486,6 +666,35 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
         </div>
       </div>`;
     document.getElementById("quizStart").addEventListener("click", startQuiz);
+    const descs = {
+      focus: "Focus mode weights questions you've missed or never seen much higher than ones you already know, so review time goes where it's needed.",
+      exam: "Exam simulation mirrors the real test format: 35 questions, one randomly drawn from each of the 35 question groups.",
+      all: "Random draw from the full 409-question pool.",
+      starred: "Only questions you've starred for review.",
+      missed: "Only questions you've gotten wrong on a previous quiz."
+    };
+    document.getElementById("quizScope").addEventListener("change", e => {
+      document.getElementById("quizDesc").textContent = descs[e.target.value] || `Random draw from subelement ${e.target.value}.`;
+    });
+  }
+
+  function weightOf(code) {
+    const a = state.attempts[code];
+    if (!a) return 5;             // never seen: high priority
+    if (a.last === false) return 8; // missed last time: highest priority
+    return Math.max(1, 3 - a.correct); // seen & correct: fades out over repeats
+  }
+  function weightedSample(pool, n) {
+    const bag = [];
+    pool.forEach(q => { for (let i = 0; i < weightOf(q.code); i++) bag.push(q); });
+    shuffle(bag);
+    const seen = new Set(), out = [];
+    for (const q of bag) {
+      if (seen.has(q.code)) continue;
+      seen.add(q.code); out.push(q);
+      if (out.length >= n) break;
+    }
+    return out;
   }
 
   function startQuiz() {
@@ -496,6 +705,9 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
       const groupCodes = Object.keys(GROUPS);
       pool = groupCodes.map(g => { const gq = Q.filter(q => groupOf(q.code) === g); return gq[Math.floor(Math.random() * gq.length)]; });
       shuffle(pool);
+    } else if (scope === "focus") {
+      const n = lenSel === "all" ? 35 : parseInt(lenSel, 10);
+      pool = weightedSample(Q, n);
     } else {
       pool = shuffle(scopeQuestions(scope));
       const n = lenSel === "all" ? pool.length : Math.min(parseInt(lenSel, 10), pool.length);
@@ -534,6 +746,7 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
             <button class="btn primary" id="quizNext" ${quizChosen === null ? "disabled" : ""}>${quizIdx === quizQs.length - 1 ? "Finish" : "Next →"}</button>
           </div>
         </div>
+        ${q.ref ? `<div class="quiz-why" id="quizWhy"><b>47 CFR &sect;${q.ref}</b> &mdash; the FCC rule this question is drawn from.</div>` : ""}
       </div>`;
     if (quizChosen !== null) showQuizAnswered(q);
     document.querySelectorAll(".quiz-opt").forEach(opt => opt.addEventListener("click", () => chooseQuizOpt(opt.dataset.letter)));
@@ -567,6 +780,8 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
       fb.textContent = wasCorrect ? "Correct" : "Incorrect — correct answer is " + q.answer;
       fb.className = "quiz-fb " + (wasCorrect ? "correct" : "wrong");
     }
+    const why = document.getElementById("quizWhy");
+    if (why) why.classList.add("show");
   }
 
   function finishQuiz() {
@@ -581,20 +796,10 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
         <div class="score">${correct}/${total}</div>
         <div class="verdict">${pct}% correct${passLine ? " &middot; " + passLine : ""}</div>
         <button class="btn primary" id="quizRestart">New quiz</button>
-        ${missed.length ? `<div class="miss-list">${missed.map(questionCard).join("")}</div>` : ""}
+        ${missed.length ? `<div class="miss-list">${missed.map(q => questionCard(q)).join("")}</div>` : ""}
       </div>`;
     document.getElementById("quizRestart").addEventListener("click", renderQuizSetup);
-    el.querySelectorAll("[data-reveal]").forEach(btn => btn.addEventListener("click", e => {
-      const card = e.target.closest(".qcard");
-      const q = byCode[card.dataset.code];
-      card.querySelector(".opts").innerHTML = ["A","B","C","D"].map(l => optRow(l, q.options[l], l === q.answer, true)).join("");
-      e.target.remove();
-    }));
-    el.querySelectorAll("[data-star]").forEach(btn => btn.addEventListener("click", e => {
-      toggleStar(e.target.dataset.star);
-      e.target.classList.toggle("on");
-      e.target.textContent = e.target.classList.contains("on") ? "★" : "☆";
-    }));
+    wireQcardEvents(el);
   }
 
   // ---------- MISSED ----------
@@ -608,17 +813,88 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
       codes.forEach(c => { if (state.attempts[c]) state.attempts[c].last = null; });
       save(); renderMissed();
     });
-    el.querySelectorAll("[data-reveal]").forEach(btn => btn.addEventListener("click", e => {
-      const card = e.target.closest(".qcard");
-      const q = byCode[card.dataset.code];
-      card.querySelector(".opts").innerHTML = ["A","B","C","D"].map(l => optRow(l, q.options[l], l === q.answer, true)).join("");
-      e.target.remove();
-    }));
-    el.querySelectorAll("[data-star]").forEach(btn => btn.addEventListener("click", e => {
-      toggleStar(e.target.dataset.star);
-      e.target.classList.toggle("on");
-      e.target.textContent = e.target.classList.contains("on") ? "★" : "☆";
-    }));
+    wireQcardEvents(el);
+  }
+
+  // ---------- REFERENCE ----------
+  function renderReference() {
+    const el = document.getElementById("referenceArea");
+    el.innerHTML = `
+      <div class="ref-card">
+        <h3>Ohm's Law</h3>
+        <div class="ref-note">Tested directly in T5D01&ndash;T5D12 &mdash; memorize the triangle, not just one arrangement.</div>
+        <div class="formula-grid">
+          <div class="formula"><div class="eq">E = I &times; R</div><div class="label">voltage = current &times; resistance</div></div>
+          <div class="formula"><div class="eq">I = E / R</div><div class="label">current = voltage &divide; resistance</div></div>
+          <div class="formula"><div class="eq">R = E / I</div><div class="label">resistance = voltage &divide; current</div></div>
+        </div>
+      </div>
+
+      <div class="ref-card">
+        <h3>Power Law</h3>
+        <div class="ref-note">Tested in T5C08&ndash;T5C12. Combine with Ohm's Law when a question gives you only two of {E, I, R, P}.</div>
+        <div class="formula-grid">
+          <div class="formula"><div class="eq">P = I &times; E</div><div class="label">power = current &times; voltage</div></div>
+          <div class="formula"><div class="eq">P = I&sup2; &times; R</div><div class="label">from Ohm's Law substitution</div></div>
+          <div class="formula"><div class="eq">P = E&sup2; / R</div><div class="label">from Ohm's Law substitution</div></div>
+        </div>
+      </div>
+
+      <div class="ref-card">
+        <h3>Decibel shortcuts</h3>
+        <div class="ref-note">The T5B decibel questions only ever use these four relationships &mdash; no logarithms needed on test day.</div>
+        <div class="ref-table-wrap">
+        <table class="ref-table">
+          <thead><tr><th>Change</th><th>dB</th><th class="mono">Pool example</th></tr></thead>
+          <tbody>
+            <tr><td>Power doubles</td><td class="mono">+3 dB</td><td class="mono">5 W &rarr; 10 W (T5B09)</td></tr>
+            <tr><td>Power &times;10</td><td class="mono">+10 dB</td><td class="mono">20 W &rarr; 200 W (T5B11)</td></tr>
+            <tr><td>Power halves</td><td class="mono">&minus;3 dB</td><td class="mono">two halvings = &minus;6 dB (T5B10)</td></tr>
+            <tr><td>Power &divide;10</td><td class="mono">&minus;10 dB</td><td class="mono">&mdash;</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <div class="ref-card">
+        <h3>Metric prefixes</h3>
+        <div class="ref-note">T5B tests unit conversion directly &mdash; these are the prefixes that appear in the pool.</div>
+        <div class="ref-table-wrap">
+        <table class="ref-table">
+          <thead><tr><th>Prefix</th><th class="mono">Multiplier</th><th class="mono">Pool example</th></tr></thead>
+          <tbody>
+            <tr><td>giga (G)</td><td class="mono">&times;10&sup9;</td><td class="mono">2425 MHz = 2.425 GHz (T5B13)</td></tr>
+            <tr><td>mega (M)</td><td class="mono">&times;10&sup6;</td><td class="mono">28400 kHz = 28.400 MHz (T5B12)</td></tr>
+            <tr><td>kilo (k)</td><td class="mono">&times;10&sup3;</td><td class="mono">1 kV = 1000 V (T5B03)</td></tr>
+            <tr><td>milli (m)</td><td class="mono">&times;10&minus;&sup3;</td><td class="mono">1.5 A = 1500 mA (T5B01)</td></tr>
+            <tr><td>micro (&micro;)</td><td class="mono">&times;10&minus;&sup6;</td><td class="mono">1,000,000 pF = 1 &micro;F (T5B08)</td></tr>
+            <tr><td>pico (p)</td><td class="mono">&times;10&minus;&sup1;&sup2;</td><td class="mono">&mdash;</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+
+      <div class="ref-card">
+        <h3>Units at a glance</h3>
+        <div class="ref-note">Straight from T5A/T5C &mdash; what's measured, in what unit.</div>
+        <div class="ref-table-wrap">
+        <table class="ref-table">
+          <thead><tr><th>Quantity</th><th>Unit</th></tr></thead>
+          <tbody>
+            <tr><td>Current</td><td>Ampere</td></tr>
+            <tr><td>Voltage (EMF)</td><td>Volt</td></tr>
+            <tr><td>Resistance</td><td>Ohm</td></tr>
+            <tr><td>Power</td><td>Watt</td></tr>
+            <tr><td>Frequency</td><td>Hertz</td></tr>
+            <tr><td>Capacitance</td><td>Farad</td></tr>
+            <tr><td>Inductance</td><td>Henry</td></tr>
+            <tr><td>Impedance</td><td>Ohm</td></tr>
+          </tbody>
+        </table>
+        </div>
+      </div>
+      <div class="source-tag">Every value above is quoted or derived directly from the official NCVEC 2026&ndash;2030 pool text &mdash; nothing here is a general ham-radio fact pulled from outside the syllabus.</div>
+    `;
   }
 
   // ---------- STATS ----------
@@ -627,9 +903,12 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
     const totalSeen = Object.keys(state.attempts).length;
     const totalCorrectLast = Object.values(state.attempts).filter(a => a.last).length;
     const overallPct = totalSeen ? Math.round((totalCorrectLast / totalSeen) * 100) : 0;
+    const dueNow = dueCodes().length;
     let html = `<div class="stat-grid">
       <div class="stat-card"><div class="n">${totalSeen}</div><div class="l">questions attempted</div></div>
       <div class="stat-card"><div class="n">${overallPct}%</div><div class="l">currently correct</div></div>
+      <div class="stat-card"><div class="n">${state.streak.count || 0}</div><div class="l">day streak</div></div>
+      <div class="stat-card"><div class="n">${dueNow}</div><div class="l">flashcards due</div></div>
       <div class="stat-card"><div class="n">${Object.keys(state.starred).length}</div><div class="l">starred for review</div></div>
     </div>`;
     html += SUBELS.map(([code, title]) => {
@@ -655,5 +934,6 @@ const POOL_DATA = {"questions": [{"code": "T1A01", "answer": "C", "ref": "97.1",
   renderLearn();
   refreshFlashScope();
   renderQuizSetup();
+  renderStreakBox();
 })();
 </script>
