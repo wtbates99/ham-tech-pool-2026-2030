@@ -1,0 +1,91 @@
+{
+ "subelements": [
+  [
+   "T1",
+   "Commission's Rules",
+   6
+  ],
+  [
+   "T2",
+   "Operating Procedures",
+   3
+  ],
+  [
+   "T3",
+   "Radio Wave Propagation",
+   3
+  ],
+  [
+   "T4",
+   "Amateur Radio Practices",
+   2
+  ],
+  [
+   "T5",
+   "Electrical Principles",
+   4
+  ],
+  [
+   "T6",
+   "Electronic and Electrical Components",
+   4
+  ],
+  [
+   "T7",
+   "Practical Circuits",
+   4
+  ],
+  [
+   "T8",
+   "Signals and Emissions",
+   4
+  ],
+  [
+   "T9",
+   "Antennas and Feed Lines",
+   2
+  ],
+  [
+   "T0",
+   "Safety",
+   3
+  ]
+ ],
+ "groups": {
+  "T1A": "Purpose and permissible use; license grant; basic terms; interference; RACES; phonetics; frequency coordinator; beacon",
+  "T1B": "Frequency allocations; emission modes; spectrum sharing; band edges; contacting the ISS; power output",
+  "T1C": "Licensing: classes, call sign systems, FCC jurisdiction, license database, term/renewal/grace period; international communications",
+  "T1D": "Authorized and prohibited transmissions; sale of equipment",
+  "T1E": "Control operator: eligibility, designating, privileges, duties, location; control point; control types",
+  "T1F": "Station identification; repeaters; third-party communications; club stations; FCC inspection",
+  "T2A": "Station operation: choosing a frequency, calling another station, test transmissions; band plans",
+  "T2B": "VHF/UHF operating: FM repeater, simplex, reverse splits; CTCSS/DTMF; DMR; Q signals",
+  "T2C": "Public service: emergency operations, RACES/ARES, net and traffic procedures, phonetics in message handling",
+  "T3A": "Radio wave characteristics: signal travel, fading, multipath, polarization, wavelength vs absorption; antenna orientation",
+  "T3B": "Electromagnetic wave properties: wavelength vs frequency; UHF/VHF/HF definitions",
+  "T3C": "Propagation modes: sporadic E, meteor scatter, auroral, tropospheric ducting, F region skip, line of sight",
+  "T4A": "Station setup: microphone, RF power meter, power source, computer, digital gear, SWR meter; RF grounding; mobile install",
+  "T4B": "Operating controls: tuning, filters, squelch, AGC, memory channels, noise blanker, mic gain, RIT, bandwidth, scanning; DMR code plugs",
+  "T5A": "Current and voltage: terminology and units, conductors and insulators, AC/DC",
+  "T5B": "Math for electronics: unit conversion, decibels",
+  "T5C": "Capacitance and inductance; RF definition and units; impedance; calculating power",
+  "T5D": "Ohm's Law; series and parallel circuits",
+  "T6A": "Fixed and variable resistors; capacitors; inductors; fuses; switches; batteries",
+  "T6B": "Semiconductors: diodes and transistors; gain",
+  "T6C": "Circuit diagrams: schematics and symbols",
+  "T6D": "Component functions: rectifiers, relays, voltage regulators, meters, indicators, ICs, transformers; resonant circuits; shielding",
+  "T7A": "Station equipment: receivers, transceivers, amplifiers, preamps, transverters; sensitivity, selectivity, mixers, oscillators, PTT, VFO, modulation",
+  "T7B": "Transmitter/receiver problems: overload, overdrive, distortion, interference, RF feedback",
+  "T7C": "Antenna/feed line measurement: SWR, high-SWR effects, feed line failures, coax characteristics, dummy loads",
+  "T7D": "Test instruments: voltmeter, ammeter, ohmmeter; soldering",
+  "T8A": "FM and SSB characteristics; bandwidth of CW/SSB/FM/fast-scan TV; choosing emission type",
+  "T8B": "Amateur satellites: Doppler shift, orbits, protocols, mode selection, power, telemetry, tracking, LEO",
+  "T8C": "Operating activities: direction finding, contests, internet linking, grid locators",
+  "T8D": "Non-voice/digital: NTSC, CW, packet, PSK, APRS, error detection, DMR, WSJT, Broadband-Hamnet",
+  "T9A": "Antennas: polarization, gain, beam antennas, loading, portable/mobile antennas, resonant length vs frequency, dipole pattern",
+  "T9B": "Feed lines: types, attenuation, SWR concepts, antenna tuners, RF connectors",
+  "T0A": "Power circuit hazards: voltages, fuses/breakers, grounding, code compliance, lightning, battery safety",
+  "T0B": "Antenna safety: tower safety and grounding, installing antennas, supports",
+  "T0C": "RF hazards: exposure, proximity, safe power levels, radiation types, duty cycle"
+ }
+}
